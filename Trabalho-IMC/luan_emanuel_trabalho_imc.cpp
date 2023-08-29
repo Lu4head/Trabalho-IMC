@@ -153,7 +153,7 @@ void menu(const int& id) {
 		pesquisar(vetor_usuarios);
 		break;
 	case 4:
-		cout << "\n\n\nSaindo..." << endl;
+		cout << "\n\n\nEncerrando o programa.Obrigado por usar o SisIMC!" << endl;
 		break;
 	default:
 		cout << "\nOpção inválida! Digite novamente... \n" << endl;
