@@ -13,8 +13,10 @@ struct Usuario {
 	float altura;
 	float imc;
 };
+// Vetor onde ficarão armazenados os usuários cadastrados (structs)
 vector<Usuario> vetor_usuarios;
 
+// Exibe na tela os dados de um usuário
 void exibir_usuario(string nome, int idade, float peso, float altura, float imc) {
 	cout << "Nome = " << nome << endl;
 	cout << "Idade = " << idade << " anos" << endl;
@@ -49,7 +51,9 @@ void exibir_usuario(string nome, int idade, float peso, float altura, float imc)
 }
 
 // Funções do menu;
-void cadastrar() {
+
+// Permite cadastrar um novo usuário definindo seus dados (nome, idade, altura e peso)
+void cadastrar() { 
 
 	// Cria uma nova variável do tipo struct Usuario para armazenas os dados
 	Usuario usuario;
@@ -101,9 +105,10 @@ void cadastrar() {
 	cout << "=============================================================================================" << endl << "       Usuário cadastrado :       " << endl;
 	exibir_usuario(usuario.nome, usuario.idade, usuario.peso, usuario.altura, usuario.imc);
 	cout << "=============================================================================================" << endl;
-}
+} 
 
-void listar() {
+// Lista todos os usuários cadastrados
+void listar(const vector<Usuario>& vetor_usuarios) {
 	cout << endl << "=================================   Usuários cadastrados:   =================================\n\n";
 	
 	if (vetor_usuarios.empty()){
@@ -118,18 +123,16 @@ void listar() {
 	cout << "=============================================================================================" << endl;
 }
 
-void pesquisar() {
+// Pede ao usuário uma entrada para se usada para pesquisar nos dados da lista de usuários cadastrados
+void pesquisar(const vector<Usuario>& vetor_usuarios) {
 	string pesquisa;
 	cout << "O que deseja procurar na lista ? : ";
 	cin >> pesquisa;
 	cout << "\n======================================   Resultados:   ======================================\n\n";
-	// Verifica se ocorre a struct Aluno & o objeto aluno no vetor vetor_alunos.
+	// Para cada struct usuario no vetor_usuarios executa a função exibir_usuario.
 	for (const Usuario& usuario : vetor_usuarios) {
-		if (usuario.nome.find(pesquisa) != string::npos ||
-			to_string(usuario.idade) == pesquisa ||
-			to_string(usuario.peso) == pesquisa ||
-			to_string(usuario.altura) == pesquisa ||
-			to_string(usuario.imc) == pesquisa) {
+		// Verifica se a pesquisa ocorre no nome de algum dos usuários.
+		if (usuario.nome.find(pesquisa) != string::npos) {
 			exibir_usuario(usuario.nome, usuario.idade, usuario.peso, usuario.altura, usuario.imc);
 		}
 	}
@@ -144,10 +147,10 @@ void menu(const int& id) {
 		cadastrar();
 		break;
 	case 2:
-		listar();
+		listar(vetor_usuarios);
 		break;
 	case 3:
-		pesquisar();
+		pesquisar(vetor_usuarios);
 		break;
 	case 4:
 		cout << "\n\n\nSaindo..." << endl;
@@ -164,6 +167,7 @@ int main() {
 	int id = 0;
 
 	cout << "Bem-vindo ao SisIMC - Um sistema de cadastramento e calculo de IMC" << endl;
+
 	do
 	{
 		cout << endl << "O que deseja fazer? " << endl;
@@ -177,7 +181,7 @@ int main() {
 		else {
 			menu(id);
 		}
-	} while (id != 4);
+	} while (id != 4); // Pede ao usuário o id para ser utilizado no menu e encerra a função caso o número digitado seja igual a 4.
 
 	return 0;
 }
