@@ -115,7 +115,7 @@ void listar(const vector<Usuario>& vetor_usuarios) {
 		cout << "Ainda não há nenhum usuário cadastrado...   :(\n" << endl;
 	}
 	else {
-		// Verifica as ocorrencias da struct Aluno & o objeto aluno no vetor vetor_alunos.
+		// Para cada struct usuario em vetor_usuarios exibe o usuario.
 		for (const Usuario& usuario : vetor_usuarios) {
 			exibir_usuario(usuario.nome, usuario.idade, usuario.peso, usuario.altura, usuario.imc);
 		}
