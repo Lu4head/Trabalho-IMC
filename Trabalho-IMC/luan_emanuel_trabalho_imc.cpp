@@ -88,7 +88,7 @@ void cadastrar() {
 
 	cout << "Digite a altura (em metros) : ";
 	cin >> usuario.altura;
-	while (usuario.altura < 0.5 || usuario.altura > 3)
+	while (usuario.altura < 0.5 || usuario.altura > 2.5)
 	{
 		cout << "Altura inválida ! Digite novamente... \n";
 		cout << "Digite a altura (em metros) : ";
