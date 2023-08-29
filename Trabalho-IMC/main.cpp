@@ -3,8 +3,6 @@
 #include <locale.h>
 #include <vector>
 
-//teste de commit
-
 using namespace std;
 
 // Define o struct Usuário que armazenará os dados de um usuário cadastrado;
@@ -17,33 +15,41 @@ struct Usuario {
 };
 vector<Usuario> vetor_usuarios;
 
-float calcula_imc(float peso, float altura) {
-	float imc = peso / (altura * altura);
-	return imc;
-}
-
 void exibir_usuario(string nome, int idade, float peso, float altura, float imc) {
 	cout << "Nome = " << nome << endl;
-	cout << "Idade = " << idade << endl;
-	cout << "Peso = " << peso << endl;
-	cout << "Altura = " << altura << endl;
-	cout << "IMC = " << imc << endl;
+	cout << "Idade = " << idade << " anos" << endl;
+	cout << "Peso = " << peso << "kg" << endl;
+	cout << "Altura = " << altura << "m" << endl;
+	cout << "IMC = " << imc << "kg/m^2" << endl;
 
-	if (imc > 20) {
-		cout << "O usuário está acima da faixa de IMC ideal" << endl;
+	if (imc < 18.5) {
+		cout << "O usuário está abaixo do peso!" << endl;
 	}
-	else if (imc < 15) {
-		cout << "O usuário está abaixo da faixa de IMC ideal" << endl;
+	else if (imc < 25) {
+		cout << "O usuário está na faixa de IMC ideal." << endl;
+	}
+	else if (imc < 30) {
+		cout << "O usuário está com excesso de peso!" << endl;
+	}
+	else if (imc < 35) {
+		cout << "O usuário está com Obesidade Grau 1!" << endl;
+	}
+	else if (imc < 40) {
+		cout << "O usuário está com Obesidade Grau 2!!" << endl;
+	}
+	else if (imc >= 40) {
+		cout << "O usuário está com Obesidade Grau 3!!!" << endl;
 	}
 	else {
-		cout << "O usuário está dentro da faixa de IMC ideal" << endl;
+		cout << "IMC inválido!" << endl;
 	}
 	cout << endl;
+	
 	return;
 }
 
 // Funções do menu;
-int cadastrar() {
+void cadastrar() {
 
 	// Cria uma nova variável do tipo struct Usuario para armazenas os dados
 	Usuario usuario;
@@ -60,6 +66,8 @@ int cadastrar() {
 	{
 		cout << "Idade inválida ! Digite novamente... \n";
 		cout << "Digite a idade: ";
+		cin.clear();
+		cin.ignore(numeric_limits<streamsize>::max(), '\n');
 		cin >> usuario.idade;
 	}
 
@@ -69,6 +77,8 @@ int cadastrar() {
 	{
 		cout << "Peso inválido ! Digite novamente... \n";
 		cout << "Digite o peso (em quilos) : ";
+		cin.clear();
+		cin.ignore(numeric_limits<streamsize>::max(), '\n');
 		cin >> usuario.peso;
 	}
 
@@ -78,10 +88,12 @@ int cadastrar() {
 	{
 		cout << "Altura inválida ! Digite novamente... \n";
 		cout << "Digite a altura (em metros) : ";
+		cin.clear();
+		cin.ignore(numeric_limits<streamsize>::max(), '\n');
 		cin >> usuario.altura;
 	}
 
-	usuario.imc = calcula_imc(usuario.peso, usuario.altura);
+	usuario.imc = usuario.peso / (usuario.altura * usuario.altura);
 
 	//Insere os dados cadastrados do usuario no vetor_usuarios.
 	vetor_usuarios.push_back(usuario);
@@ -89,18 +101,24 @@ int cadastrar() {
 	cout << "=============================================================================================" << endl << "       Usuário cadastrado :       " << endl;
 	exibir_usuario(usuario.nome, usuario.idade, usuario.peso, usuario.altura, usuario.imc);
 	cout << "=============================================================================================" << endl;
-	return 0;
 }
-int listar() {
+
+void listar() {
 	cout << endl << "=================================   Usuários cadastrados:   =================================\n\n";
-	// Verifica as ocorrencias da struct Aluno & o objeto aluno no vetor vetor_alunos.
-	for (const Usuario& usuario : vetor_usuarios) {
-		exibir_usuario(usuario.nome, usuario.idade, usuario.peso, usuario.altura, usuario.imc);
+	
+	if (vetor_usuarios.empty()){
+		cout << "Ainda não há nenhum usuário cadastrado...   :(\n" << endl;
+	}
+	else {
+		// Verifica as ocorrencias da struct Aluno & o objeto aluno no vetor vetor_alunos.
+		for (const Usuario& usuario : vetor_usuarios) {
+			exibir_usuario(usuario.nome, usuario.idade, usuario.peso, usuario.altura, usuario.imc);
+		}
 	}
 	cout << "=============================================================================================" << endl;
-	return 0;
 }
-int pesquisar() {
+
+void pesquisar() {
 	string pesquisa;
 	cout << "O que deseja procurar na lista ? : ";
 	cin >> pesquisa;
@@ -116,15 +134,10 @@ int pesquisar() {
 		}
 	}
 	cout << "=============================================================================================" << endl;
-	return 0;
-}
-int sair() {
-	cout << "\n\n\n\n\nsaindo...";
-	return 0;
 }
 
 // Seleciona a ação a ser executada;
-int menu(int id) {
+void menu(const int& id) {
 	switch (id)
 	{
 	case 1:
@@ -137,13 +150,12 @@ int menu(int id) {
 		pesquisar();
 		break;
 	case 4:
-		sair();
+		cout << "\n\n\nSaindo..." << endl;
 		break;
 	default:
 		cout << "\nOpção inválida! Digite novamente... \n" << endl;
 		break;
 	}
-	return id;
 }
 
 int main() {
@@ -157,7 +169,14 @@ int main() {
 		cout << endl << "O que deseja fazer? " << endl;
 		cout << "As funções disponíveis sao: \n1-) Cadastrar\n2-) Listar\n3-) Pesquisar\n4-) Sair" << endl << "\nDigite o que deseja fazer : ";
 		cin >> id;
-		menu(id);
+		if (cin.fail()) {
+			cout << "\nOpção inválida! Digite novamente... \n" << endl;
+			cin.clear();
+			cin.ignore(numeric_limits<streamsize>::max(), '\n');
+		}
+		else {
+			menu(id);
+		}
 	} while (id != 4);
 
 	return 0;
