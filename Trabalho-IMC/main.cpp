@@ -3,6 +3,8 @@
 #include <locale.h>
 #include <vector>
 
+//teste de commit
+
 using namespace std;
 
 // Define o struct Usuário que armazenará os dados de um usuário cadastrado;
